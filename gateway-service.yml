@@ -23,8 +23,8 @@ spring:
           google:
             # -----------------------------------------------------------------
             # À REMPLIR : Allez sur console.cloud.google.com pour les obtenir
-            client-id: "VOTRE_CLIENT_ID_GOOGLE.apps.googleusercontent.com"
-            client-secret: "VOTRE_CLIENT_SECRET_GOOGLE"
+            client-id: "1082771493964-f87gdrrsin26mhjujoeacaglsag55m42.apps.googleusercontent.com"
+            client-secret: "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"
             # -----------------------------------------------------------------
 
   cloud:
