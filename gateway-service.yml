@@ -1,0 +1,56 @@
+# Le port de la Gateway. C'est le SEUL port que votre frontend connaîtra.
+server:
+  port: 8080
+
+# Configuration Eureka
+eureka:
+  client:
+    # On lui dit de s'enregistrer auprès d'Eureka
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    # Préfère utiliser l'IP pour s'enregistrer
+    prefer-ip-address: true
+
+# Configuration de la SÉCURITÉ (Google OAuth2)
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            # -----------------------------------------------------------------
+            # À REMPLIR : Allez sur console.cloud.google.com pour les obtenir
+            client-id: "VOTRE_CLIENT_ID_GOOGLE.apps.googleusercontent.com"
+            client-secret: "VOTRE_CLIENT_SECRET_GOOGLE"
+            # -----------------------------------------------------------------
+
+  cloud:
+    gateway:
+      # Configuration des ROUTES
+      routes:
+        # Pour l'instant, nous n'avons pas d'autres services, c'est vide.
+        # Nous ajouterons les routes vers "produit-service" ici plus tard.
+        # Exemple que nous ajouterons :
+        # - id: produit-service
+        #   uri: lb://PRODUIT-SERVICE # "lb" signifie "Load Balanced" via Eureka
+        #   predicates:
+        #     - Path=/api/produits/**
+
+      # Configuration de la validation des Tokens
+      default-filters:
+        - TokenRelay
+
+# Activer la sécurité sur toutes les routes
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.security: TRACE
