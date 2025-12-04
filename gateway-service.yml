@@ -1,4 +1,3 @@
-# Le port de la Gateway. C'est le SEUL port que votre frontend connaîtra.
 server:
   port: 8080
 
@@ -31,13 +30,29 @@ spring:
     gateway:
       # Configuration des ROUTES
       routes:
-        # Pour l'instant, nous n'avons pas d'autres services, c'est vide.
-        # Nous ajouterons les routes vers "produit-service" ici plus tard.
-        # Exemple que nous ajouterons :
-        # - id: produit-service
-        #   uri: lb://PRODUIT-SERVICE # "lb" signifie "Load Balanced" via Eureka
-        #   predicates:
-        #     - Path=/api/produits/**
+        # 1. Microservice Produit
+        - id: produit-service
+          uri: lb://PRODUIT-SERVICE # "lb" signifie "Load Balanced" via Eureka
+          predicates:
+            - Path=/api/produits/**, /api/categories/**
+
+        # 2. Microservice Client
+        - id: client-service
+          uri: lb://CLIENT-SERVICE
+          predicates:
+            - Path=/api/clients/**
+
+        # 3. Microservice Commande
+        - id: commande-service
+          uri: lb://COMMANDE-SERVICE
+          predicates:
+            - Path=/api/commandes/**
+
+        # 4. Microservice Paiement
+        - id: paiement-service
+          uri: lb://PAIEMENT-SERVICE
+          predicates:
+            - Path=/api/paiements/**
 
       # Configuration de la validation des Tokens
       default-filters:
